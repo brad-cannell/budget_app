@@ -54,3 +54,54 @@ I'm trying to create a Shiny application that I can use to track and pay bills. 
 ## Databse vs CSV data tables
 
 Eventually, I may want to use SQLite or something for data storage. However, there will be a little bit of a learning curve for me to go that route. For now, I will start by building the app with flat files. Later, I may decided to move the data over to a database of some sort. 
+
+## Table Types
+
+1. Object tables: Each record of this type of table holds information that relates to a real-world object.
+
+2. Transaction tables: Each record of a transaction table holds information about an event.
+
+3. Join tables: When many-to-many relationships exist, a join table sits in the middle of the two tables. A join table generally hos only three fields: a unique field to identify each record, a reference to one side of the association, and a reference to the other side of an association.
+
+## Normalization
+
+1. First normal form (1NF): Each cell of a table must contain only a single value, and the table must not contain repeating groups of data (e.g., columns named title1, title2, title3)
+
+2. Second normal form (2NF): Data not directly dependent on the table’s primary key is moved into another table. All the data in a row that isn’t an integral part of the entity is moved to a different table. For example, a customer and a book may be an integral part of an order, but a customer name and a book title are not. While the customer may change names, the customer can’t change the pk_ Customer because we created it and we control it. Similarly, the publisher may change the book’s title but not the pk_ book. The primary keys are reliable pointers to the objects they identify, regardless of what other information may change.
+
+* Also, values that repeat in multiple records is an indicator that the data is not yet in second normal form (e.g., orders and orders details). Some data, like foreign keys, are meant to repeat. Other data, like dates and quantities, repeat naturally and aren’t indicative of a problem.
+
+3. Third normal form (3NF) requires removing all fields that can be derived from data contained in other fields in the table or other tables in the database.
+
+## Naming rules
+
+Rules for consistently naming different database/app components.
+
+### Tables
+
+1. They should be descriptive
+2. Snake case
+
+Examples:
+
+1. `payees`
+2. `payee_details`
+
+### Key fields
+
+1. Assign a primary key field to every table using the form `pk_table_name`.
+
+2. Assign foreign keys as needed using the form `fk_table_name`. 
+
+### Other fields:
+
+1. They should have descriptive names
+2. Start with the table name
+3. Use snake case
+4. Group similar fields with a common key word (e.g., address_)
+
+Examples:
+1. `payee_address_street`
+2. `payee_address_city`
+3. `payee_details_date_account_open`
+4. `payee_details_date_account_close`
