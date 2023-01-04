@@ -1,0 +1,55 @@
+---
+title: "data_01_create_bill_pay_df"
+date: "2023-01-03"
+---
+
+# Overview
+
+In this file, I'm preprocessing and merging the separate data tables needed to create the `bill_pay` data frame.
+
+I find using Qmd files easier to work with while developing than R scripts. However, the code used by the Shiny app will be in an R script. 
+
+# Load packages
+
+```{r}
+library(dplyr)
+library(readr)
+```
+
+
+# Load data tables
+```{r}
+payee_details <- read_csv("tables/payee_details.csv")
+payees        <- read_csv("tables/payees.csv")
+payments      <- read_csv("tables/payments.csv")
+```
+
+
+# Get current date
+
+We will use this to filter table elements to display
+```{r}
+today <- Sys.Date()
+```
+
+
+# Data management
+
+## Merge the data frames for bill payment together
+```{r}
+pay_bills <- payees |> 
+  left_join(payee_details, by = c("pk_payees" = "fk_payees")) |> 
+  left_join(payments, by = c("pk_payee_details" = "fk_payee_details"))
+```
+
+## Keep only the columns of interest
+
+# Convert to R script
+
+So that it can just be sourced by app.R. 
+
+Not currently working.
+
+```{r purl=FALSE}
+knitr::purl("data_01_create_bill_pay_df,qmd", "../R/data_01_create_bill_pay_df.R", documentation = 2)
+```
