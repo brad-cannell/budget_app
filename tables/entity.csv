@@ -1,0 +1,6 @@
+﻿pk_entity,entity_name,entity_type,entity_url,entity_address_street_number,entity_address_street_name,entity_address_street_postfix,entity_address_apt_suite,entity_address_po_box,entity_address_city,entity_address_state,entity_address_state_abbr,entity_address_zip_5,entity_address_zip_4,entity_address_country,entity_phone_country_code,entity_phone_area_code,entity_phone_number,entity_description
+1,Mr. Cooper,Creditor,https://www.mrcooper.com/,,,,,650783,Dallas,Texas,TX,75265,783,USA,1,888,3642432,Mortage Company
+2,Atmos Energy,Creditor,https://www.atmosenergy.com/,,,,,740353,Cincinnati,Ohio,OH,45274,353,USA,1,888,2866700,Gas Company
+3,UTHealth,Employer,https://sph.uth.edu/campuses/houston,1200,Pressler,Street,,,Houston,Texas,TX,77030,,USA,1,713,5009050,University of Texas Health Science Center at Houston
+4,Fidelity ,Investment,https://workplaceservices.fidelity.com/mybenefits/definedcontributions/navigation/dc/Balances?skipEnrollmentCheck=true&client=000700129&plan=82501,,,,,,,,,,,,,,,
+5,USAA,Bank,https://www.usaa.com/,,,,,,,,,,,,,,,

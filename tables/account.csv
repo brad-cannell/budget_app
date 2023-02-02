@@ -1,0 +1,3 @@
+﻿fk_entity,pk_account,account_number,account_date_open,account_date_closed,account_type,account_category,account_date_payment_due,account_notes
+1,1,687083667,2022-01-01,,Installment,Housting and Utilities,1,Maturity date: 2050-06-01
+2,2,4040096740,2022-02-04,,Open,Housting and Utilities,3,

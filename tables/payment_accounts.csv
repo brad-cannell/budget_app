@@ -1,0 +1,3 @@
+﻿fk_entity,pk_payment_accounts,payment_accounts_account_type,payment_accounts_account_last_4,payment_accounts_nickname
+5,1,Debit Card,3609,USAA Checking Card
+5,2,Checking Account,1797,USAA Bill Pay Checking
