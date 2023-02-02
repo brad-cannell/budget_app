@@ -1,48 +1,77 @@
-# =============================================================================
-# My Personal Budget Shiny App
-# Created: 2023-01-03
-# =============================================================================
+#' ---
+#' title: My Personal Budget Shiny App
+#' author: Brad Cannell
+#' date: 2023-01-03
+#' ---
 
+
+# Resources ---------------------------------------------------------------
 # How do I write comments so that they show up in outline view?
+# https://www.natedayta.com/2019/12/25/owning-outlines-in-rstudio/
 
-# Load packages
+# Mastering Shiny
+# https://mastering-shiny.org/index.html
+
+# Outstanding User Interfaces with Shiny
+# https://unleash-shiny.rinterface.com/index.html
+
+# Adding HTML content (e.g., text)
+# https://shiny.rstudio.com/tutorial/written-tutorial/lesson2/
+
+
+# Load packages -----------------------------------------------------------
 library(shiny)
-library(readr)
-library(dplyr)
+library(fontawesome)
 
 
-# Load data tables
-# accounts      <- read_csv("../tables/accounts.csv")
-# payee_details <- read_csv("../tables/payee_details.csv")
-# payees        <- read_csv("../tables/payees.csv")
-# payments      <- read_csv("../tables/payments.csv")
-
-
-# Data processing (eventually move to separate file)
-
-## Get current date
-## We will use this to filter table elements to display
-# today <- Sys.Date()
-
-## Merge the various tables I need together to pay bills
-# pay_bills <- payees |> 
-#   left_join(payee_details, by = c("pk_payees" = "fk_payees"))
-
+# UI Definition -----------------------------------------------------------
 ui <- fluidPage(
   titlePanel("My Personal Budget App"),
-  # Create space to display data
-  tableOutput("payments_tbl")
+
+# * tabsetPanel -----------------------------------------------------------
+  tabsetPanel(
+
+# * * Home Panel ----------------------------------------------------------
+    tabPanel(
+      title = p(fa("house", fill = "#808080"), "Home"),
+      fluidRow(
+        column(12,
+          p(
+            "The homepage should give instructions for use and a brief
+            desctiption of each tab.", style = "margin-top: 10px;"
+          ),
+          tags$ul(
+            tags$li("Dashboard"),
+            tags$li("Panel 3")
+          )
+        )
+      )
+    ),
+
+# ** Panel 2 --------------------------------------------------------------
+    tabPanel(
+      title = p(fa("gauge", fill = "#808080"),"Dashboard"),
+      fluidRow(
+        column(12
+          # Add content here. I think I just want to add some text here for 
+          # now.
+        )
+      )
+    )
+  )
 )
 
 
+# Server Definition -------------------------------------------------------
 server <- function(input, output, session) {
   # The left-hand side of the assignment operator (<-), output$ID, indicates 
   # that you’re providing the recipe for the Shiny output with the matching ID.
   # The right-hand side of the assignment uses a specific render function to 
   # wrap some code that you provide.
-  output$payments_tbl <- renderTable({ 
-    payments
-  })
+  
+  # output$payments_tbl <- renderTable({ 
+  #   payments
+  # })
 }
 
 
