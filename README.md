@@ -4,7 +4,7 @@
 # Notes for My Personal Budget App
 
 Created: 2023-01-01  
-Updated: 2023-01-03
+Updated: 2023-02-02
 
 <!-- badges: start -->
 <!-- badges: end -->
@@ -14,7 +14,7 @@ experimental at this point.
 
 # Instructions
 
-1.  Use NOTES for notes, but not for tasks. *Why* or *how*, but *not
+1.  Use README for notes, but not for tasks. *Why* or *how*, but *not
     what*. For now, I’m making this a **private** repository. Because
     it’s a private repository, GitHub won’t allow me to create a wiki.
     For now, I will use README like a wiki.
@@ -137,5 +137,47 @@ Examples:
 3.  Use snake case
 4.  Group similar fields with a common key word (e.g., address\_)
 
-Examples: 1. `payee_address_street` 2. `payee_address_city` 3.
-`payee_details_date_account_open` 4. `payee_details_date_account_close`
+Examples:
+
+1.  `payee_address_street`
+2.  `payee_address_city`
+3.  `payee_details_date_account_open`
+4.  `payee_details_date_account_close`
+
+# Terms
+
+**Entity type**
+
+- Creditor (I owe them money)
+- Debtor (They owe me money)
+- Employer
+
+**Account type**
+
+- Installment. Installment loans are often large sums of money borrowed
+  at once that you pay off over a period of time in relatively small
+  quantities. These are often used for milestone purchases such as a
+  house or a car.
+- Open. Open credit allows you to borrow up to a certain limit, but the
+  entire amount must be paid off at the end of a billing period. These
+  are often used for reoccurring bills, like utility bills or phone
+  bills.
+- Revolving. These accounts don’t have a predetermined loan amount and
+  might not have a set repayment period. Instead, you’ll receive a
+  credit limit when you open an account. You can then continually borrow
+  against the limit and pay down your balance to free up available
+  credit. Also, you can choose to pay less than the full balance and
+  revolve part of the debt to the next billing cycle.
+
+**Account category**
+
+These are categories that are I’ve created. The correspond the the
+sections of my budget spreadsheet.
+
+- Deduction
+- Savings
+- Housing and Utilities
+- Insurance
+- Student Loans
+- Memberships and Subscriptions
+- Debt
