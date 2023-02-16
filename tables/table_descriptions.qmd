@@ -1,0 +1,60 @@
+---
+title: "Table Descriptions"
+date: "2023-02-15"
+---
+
+# Overview
+
+This file contains a brief overview of the data tables in the tables folder.
+
+## Account
+
+Entity -> Account
+
+This table contains information about specific accounts within an entity. For example, I have multiple accounts at the bank and multiple accounts at AT&T (i.e., phone, internet).
+
+## Entity
+
+Entity -> Account
+Entity -> Income
+Entity -> Owed
+Entity -> Payment account
+
+This table contains information about entities (i.e., people, businesses, organizations) that I interact with financially. I might give them money. They may give me money.
+
+## Income
+
+Entity -> Income
+
+This table contains a record of each instance of significant income (e.g., paycheck, taxes, consulting fees).
+
+## Interest rate
+
+Account -> Interest rate
+
+This table contains information about interest rates for my accounts over a specific time period. 
+
+## Owed
+
+Entity -> Owed
+
+This table contains records of the money I'm owed. For example, a reimbursement I'm waiting on from UTHealth.
+
+## Payment account
+
+Entity -> Payment account
+
+This table contains information about specific accounts I use to pay bills (e.g., debit cards, checking accounts).
+
+## Payment method
+
+Account -> Payment method
+Payment account -> Payment method
+
+This table contains the dates a particular payment account was used and if there was an autodraft.
+
+## Period payment
+
+Account -> Period payment
+
+This table contains status information (e.g., balance, expected payment, actual payment) about each account in a given pay period.
