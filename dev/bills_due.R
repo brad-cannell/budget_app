@@ -4,7 +4,7 @@
 # 
 # I did a fair amount of work on the budget in Google Sheets. My thought was 
 # that I would just use the easiest platform to get the job done. It turns out
-# that Google Sheets isn't "easy"; although, it still may turn out ot be the 
+# that Google Sheets isn't "easy"; although, it still may turn out to be the 
 # easiest - we'll see. For now, however, I want to give Shiny another try.
 # 
 # One of the sheets that I started creating in Google Sheets was the "Bills 
@@ -52,10 +52,128 @@ today <- Sys.Date()
 # Again, these will be interactive in Shiny.
 selector_year <- 2024
 selector_month <- "February"
-pay_period <- "Second"
+selector_pay_period <- "Second"
 
 
-# Scenario 1: Pay period 1 and 2 only ----
+# Step 1: Add a year filter----
+
+# Ideally, I'd like to use this app across years. That means that there will be
+# data from across multiple years in the data. So, I will need to be able to
+# select a year I'm interested in (should default to the current year) and then
+# view the bills that are due for the year and pay period selected.
+
+# So, the the account was opened on or before the selector date year and 
+# it was closed on or after the selector date year -- including accounts that 
+# are still open (i.e., is.na(account_date_closed)).
+accounts_filtered_year <- test_accounts |>
+  filter(year(account_date_opened) <= selector_year) |> 
+  filter(is.na(account_date_closed) | year(account_date_closed) >= selector_year)
+
+# Lake house should be filtered out. Opened after 2024.
+# Old energy company should be filtered out. Closed in 2023.
+accounts_filtered_year
+
+
+# Step 2: Filter by selected month ----
+
+# Now, we have filtered our accounts list so that it only includes payment
+# accounts that were open in the currently selected year. However, bills change 
+# throughout the year. Now, we only want to further filter the accounts list to 
+# only see accounts that are/were open in the currently selected month.
+
+# So, filter out accounts that were: 
+# - OPENDED AFTER the selected month (within the year) OR
+# - CLOSED BEFORE the selected month (within the year).
+# Said another way, KEEP accounts that were:
+# - OPENDED BEFORE the selected month (within the year) OR
+# - CLOSED AFTER the selected month (within the year).
+
+# Get the month selected by the user as a number 1-12.
+selector_month_num <- match(selector_month, month.name)
+
+# In this example, the currently selected month is February. 
+# New credit card should be filtered out because it wasn't opened until March.
+# Mattress should be filtered out because was closed in January.
+accounts_filtered_year |> 
+  mutate(
+    account_opened_month = month(account_date_opened),
+    account_closed_month = month(account_date_closed)
+  ) |> 
+  select(account_nickname:account_date_opened, account_opened_month:account_closed_month) |> 
+  filter(account_opened_month < selector_month_num | account_closed_month > selector_month_num)
+
+## Issue ----
+
+# Trying to filter on the month number alone (as we did above) doesn't work. It
+# filters out too many rows. For example, Therapy is filtered out because its 
+# open date month is 09, which is greater than 02. And if this account had been
+# opened in the ninth month of 2024, that would be exactly what we want to 
+# happen. However, Therapy was opened in 2021-09, so we don't want to filter it
+# out. 
+# So, we need to filter by the month AND year the account was opened. If the 
+# selector year is 2024 and the selector month is February, then we want to 
+# keep all accounts that were open at any point during 2024-02. We will worry
+# about filtering the pay period later. So,
+# - Account open date before 2024-02-01 AND 
+# - Account closed date on or after 2024-02-29
+
+## Year-Month filters ----
+
+selector_month <- "February" # Adding again here for testing
+# Build selection date value from the selection parameters entered by the user
+# Get the month selected by the user as a number 1-12. This will help us build 
+# a completed sector date (Y-M-D) below.
+selector_month_num <- match(selector_month, month.name)
+# Merge together the year and month selected by the user as a date. We will
+# use the first day of the month (i.e., "1") for now.
+selector_year_month_first_day <- paste(selector_year, selector_month_num, "1", sep = "-") |> as.Date()
+# Also determine what the last day of the selected month is.
+selector_year_month_last_day <- ceiling_date(selector_year_month_first_day, "month") - days(1)
+
+## Filter by selected year and month ----
+
+# In this example, the currently selected month is February (2024). 
+# New credit card should be filtered out because it wasn't opened until March.
+# Mattress should be filtered out because was closed in January.
+accounts_filtered_year_month <- accounts_filtered_year |> 
+  # Keep accounts opened before the last day of the selected year and month.
+  # This should remove New credit card.
+  filter(account_date_opened <= selector_year_month_last_day) |> 
+  # Keep accounts that haven't been closed yet OR were closed after the first
+  # day of the selected year and month.
+  # This should remove Mattress.
+  filter(is.na(account_date_closed) | (account_date_closed >= selector_year_month_first_day))
+
+accounts_filtered_year_month
+
+# This works. 
+# If we change selector_month to January, Mattress should not be removed. I 
+# did a test and it works.
+
+
+# Step 3: Filter by pay period ----
+
+# At this point, every account remaining was open at some point during the 
+# currently selected year and month. Now, we need to filter for the selected
+# pay period.
+selector_pay_period <- "First" # Adding again here for testing
+
+accounts_filtered_year_month |> 
+  filter(account_pay_period_manual == selector_pay_period)
+
+## Issue ----
+
+# The code above works just fine if we only have accounts that need to be paid
+# in the first OR second pay period, MONTHLY. However, we have some accounts 
+# that need to be paid twice a month and other accounts that need to be paid
+# annually. How do we handle them?
+
+
+  
+  
+  
+  
+# Scenario X: Pay period 1 and 2 only ----
 
 # Let's start with the simplest scenario:
 # - We are only storing data from one year in the table, so we don't need to 
@@ -77,7 +195,7 @@ if (pay_period == "First") {
 accounts_filtered
 
 
-# Scenario 2: Add a year filter----
+# Scenario X: Add a year filter----
 
 # Ideally, I'd like to use this app across years. That means that there will be
 # data from across multiple years in the data. So, I will need to be able to
@@ -108,11 +226,13 @@ if (pay_period == "First") {
 # View results
 accounts_filtered
 
-
-# Scenario 3: Filter by manually selected pay period ----
-
 # What should be next? Viewing annual bills or viewing bills that have to be 
-# paid in both pay periods?
+# paid in both pay periods? I think the next step is filtering bills by 
+# manually selected bill pay period instead of due date. Annual adds a 
+# completely new type of bill to deal with.
+
+
+# Scenario X: Filter by manually selected pay period ----
 
 # I don't always choose to pay a bill during the pay period it is due. For 
 # example, car insurance might be due on the 22nd (second pay period), but I 
@@ -132,12 +252,15 @@ accounts_filtered <- test_accounts |>
 # Old energy company should be filtered out. Closed in 2023.
 accounts_filtered 
 
+# Next, filter to 
+
 # Next, filter by pay period.
 # Create a calculated variable that captures whether or not the due date for
-# bill falls within the pay period the user manually selected paying the bill
-# in. Why? Why not just always go by account_pay_period_manual?
+# the bill falls within the pay period the user manually selected paying the 
+# bill in. Why? Why not just always go by account_pay_period_manual?
 # Let's don't create a solution for a problem that doesn't exist.
-
+accounts_filtered |> 
+  filter(account_pay_period_manual == pay_period)
 
 
 
