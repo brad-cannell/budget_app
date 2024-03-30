@@ -32,7 +32,7 @@ library(lubridate)
 # Save the sheet id for use below. You can pull it from the sheet's URL. For 
 # example, the sheet id for the budget app is: "1153fK76wz8cu4URFM7eidlyv8AEUoSKAAIt-q6uH0ZE"
 # It is taken from the budget app's url, which is: "https://docs.google.com/spreadsheets/d/1153fK76wz8cu4URFM7eidlyv8AEUoSKAAIt-q6uH0ZE/edit#gid=1694905897"
-test_data_id <- "11riDMdaEY-PFsYVIaIkf6XLvuz9lp1DVV0fFYoX5K4w"
+test_data_id <- "1UynDArMMcKkiJevSZtW4HJ74zMiqrLuKg0CpDcPtI2c"
 test_accounts <- read_sheet(
   test_data_id,
   sheet = "Accounts"
@@ -173,6 +173,13 @@ accounts_filtered_year_month |>
   
   
   
+
+# Older stuff ----
+# Keeping around until I'm sure I don't need it anymore.
+
+
+
+
 # Scenario X: Pay period 1 and 2 only ----
 
 # Let's start with the simplest scenario:
